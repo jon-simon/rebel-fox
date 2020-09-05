@@ -9,7 +9,7 @@ module "ec2_keypairs" {
   org               = "jibakurei"
   working_directory = "/terraform/ec2-keypairs"
   github_repo       = "jon-simopn/rebel-fox"
-  branch            = "fighting-mongoose"
+  branch            = "master"
   aws_access_key    = var.aws_access_key_id
   aws_secret_key    = var.aws_secret_access_key
   aws_account_name  = "jibakurei"
