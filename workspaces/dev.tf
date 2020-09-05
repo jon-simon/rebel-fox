@@ -1,14 +1,12 @@
-// Workspaces
-module "ec2_keypairs" {
+module "vpc" {
   source            = "app.terraform.io/jibakurei/workspace/tfe"
-  version           = "0.1.0"
-  workspace_name    = "ec2-keypairs"
+  workspace_name    = "vpc"
   name              = "jibakurei"
-  environment       = "global"
-  operator          = "jibakurei"
+  environment       = "dev"
+  operator          = "circle"
   org               = "jibakurei"
-  working_directory = "/terraform/ec2-keypairs"
-  github_repo       = "jon-simon/rebel-fox"
+  working_directory = "/terraform/vpc"
+  github_repo       = "meetcircle/rebel-fox"
   branch            = "master"
   aws_access_key    = var.aws_access_key_id
   aws_secret_key    = var.aws_secret_access_key
