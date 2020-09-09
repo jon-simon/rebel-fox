@@ -73,7 +73,7 @@ data "aws_security_group" "vpc_default" {
 // This will pull the latest available ami that starts with the defined name variable.
 // Example usage: data.aws_route53_zone.jibakurei.id
 data "aws_route53_zone" "root" {
-  name = "jibakurei-${local.aws_account_name}.co."
+  name = "${local.aws_account_name}.com."
 }
 
 // This will pull the latest available ami that starts with the defined name variable.
