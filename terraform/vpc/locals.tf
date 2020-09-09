@@ -4,7 +4,7 @@ locals {
   name         = var.name
   service_name = "kubernetes"
   environment  = var.environment
-  subnets = sort(cidrsubnets(var.cidr_block, 4, 4, 4, 12, 12, 12, 8, 8, 8))
+  subnets = sort(cidrsubnets(var.cidr_block, 16, 16, 16, 4, 4, 4, 4, 4, 4))
 
   common_tags = {
     Service     = local.service_name
