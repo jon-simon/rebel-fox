@@ -5,4 +5,4 @@ variable "aws_region" {}
 variable "name" {}
 variable "operator" {}
 variable "environment" {}
-variable "cidr_block" {}
+# variable "cidr_block" {}
