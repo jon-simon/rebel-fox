@@ -13,6 +13,7 @@ data "aws_vpc" "jibakurei" {
   }
 }
 
+// TODO: Add terraform resources to actually create this key in the VPC setup
 data "aws_kms_alias" "session_manager" {
   name = "alias/session-manager"
 }

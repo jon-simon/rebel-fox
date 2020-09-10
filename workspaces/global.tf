@@ -1,12 +1,28 @@
 // Workspaces with Global resources that will be shared across all Kubernetes clusters
-module "vpc" {
+module "kubernetes-vpc" {
   source            = "app.terraform.io/jibakurei/workspace/tfe"
-  workspace_name    = "vpc"
+  workspace_name    = "kubernetes-vpc"
   name              = "jibakurei"
   environment       = "global"
   operator          = "jibakurei"
   org               = "jibakurei"
-  working_directory = "/terraform/vpc"
+  working_directory = "/terraform/kubernetes-vpc"
+  github_repo       = "jon-simon/rebel-fox"
+  branch            = "master"
+  aws_access_key    = var.aws_access_key_id
+  aws_secret_key    = var.aws_secret_access_key
+  aws_account_name  = "jibakurei"
+  oauth_token_id    = var.oauth_token_id
+}
+
+module "image-builder-vpc" {
+  source            = "app.terraform.io/jibakurei/workspace/tfe"
+  workspace_name    = "image-builder-vpc"
+  name              = "jibakurei"
+  environment       = "global"
+  operator          = "jibakurei"
+  org               = "jibakurei"
+  working_directory = "/terraform/image-builder-vpc"
   github_repo       = "jon-simon/rebel-fox"
   branch            = "master"
   aws_access_key    = var.aws_access_key_id
