@@ -11,7 +11,7 @@ AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-creden
 yum update -y
 yum upgrade -y
 
-## installing base packages
+## installing some base packages
 PACKAGES="
 amazon-ecr-credential-helper
 curl
@@ -29,8 +29,8 @@ unzip
 wget
 "
 
-for p in ${PACKAGES}; do
-  yum install -y ${p}
+for p in $${PACKAGES}; do
+  yum install -y $${p}
 done
 
 ## disabling aws controlled motd
