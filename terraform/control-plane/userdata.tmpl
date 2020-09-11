@@ -6,14 +6,16 @@ set -ex
 AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone 2>/dev/null | head -c -1)
 AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-credentials/ec2/info | grep AccountId | awk '{print $3}' | tr -d '"')
 
-## updates
-yum update -y
-yum upgrade -y
-
 ## enabling amazon-linux-extras
-amazon-linux-extras enable vim epel docker
+amazon-linux-extras enable vim epel docker kernel-ng
 amazon-linux-extras install vim epel docker -y
 systemctl enable docker
+
+## updates
+yum clean metadata
+yum install kernel -y
+yum upgrade -y
+
 
 ## installing some base packages
 PACKAGES="
@@ -22,6 +24,7 @@ atop
 curl
 dstat
 git
+golang
 htop
 iftop
 initscripts
