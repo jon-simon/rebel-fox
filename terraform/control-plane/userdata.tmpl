@@ -7,21 +7,29 @@ AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/a
 AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-credentials/ec2/info | grep AccountId | awk '{print $3}' | tr -d '"')
 
 ## updates
-
 yum update -y
 yum upgrade -y
+
+## enabling amazon-linux-extras
+amazon-linux-extras enable vim epel docker
+amazon-linux-extras install vim epel docker -y
+systemctl enable docker
 
 ## installing some base packages
 PACKAGES="
 amazon-ecr-credential-helper
+atop
 curl
+dstat
 git
 htop
-iotop
+iftop
 initscripts
+iotop
 jq
 ncdu
 net-tools
+nload
 python3
 python3-pip
 python3-setuptools
@@ -59,9 +67,8 @@ this warning.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
-EOF
-
-## Docker Config
+EOF] 0
+\[poinpubyotvcnuexwzrQCxZq## Docker Config
 cat << EOF > /etc/sysconfig/docker
 # The max number of open files for the daemon itself, and all
 # running containers.  The default value of 1048576 mirrors the value
