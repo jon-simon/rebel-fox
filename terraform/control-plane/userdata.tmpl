@@ -89,7 +89,7 @@ mkdir -p /home/ec2-user/.docker
 cat << EOF > /root/.docker/config.json
 {
 	"credHelpers": {
-		"${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com": "ecr-login"
+		"$${AWS_ACCOUNT_ID}.dkr.ecr.$${AWS_DEFAULT_REGION}.amazonaws.com": "ecr-login"
 	}
 }
 EOF
