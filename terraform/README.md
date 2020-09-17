@@ -1,4 +1,4 @@
 # Rebel Fox
-![](/content/images/rebelfox.svg)
+![](https://github.com/jon-simon/rebel-fox/blob/master/content/images/rebelfox.svg)
 
 //TODO: add a readme content
