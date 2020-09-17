@@ -52,11 +52,16 @@ data "aws_subnet" "private" {
 // Example usage: data.aws_ami.default.id
 data "aws_ami" "base" {
   most_recent = true
-  owners      = ["137112412989"]
+  owners      = ["552172703831"]
 
   filter {
-    name   = "name"
+    name   = "Name"
     values = ["amzn2-ami-hvm-2.0.*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "Version"
+    values = ["1.19.2"]
   }
 }
 
