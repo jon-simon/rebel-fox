@@ -62,3 +62,19 @@ module "ec2-keypairs" {
   aws_account_name  = "jibakurei"
   oauth_token_id    = var.oauth_token_id
 }
+
+module "s3-buckets" {
+  source            = "app.terraform.io/jibakurei/workspace/tfe"
+  workspace_name    = "s3-buckets"
+  name              = "jibakurei"
+  environment       = "global"
+  operator          = "jibakurei"
+  org               = "jibakurei"
+  working_directory = "/terraform/s3-buckets"
+  github_repo       = "jon-simon/rebel-fox"
+  branch            = "master"
+  aws_access_key    = var.aws_access_key_id
+  aws_secret_key    = var.aws_secret_access_key
+  aws_account_name  = "jibakurei"
+  oauth_token_id    = var.oauth_token_id
+}
