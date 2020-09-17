@@ -1,1 +1,4 @@
-//TODO: add a readme for terraform folder
+# Rebel Fox
+![](/content/images/rebelfox.svg)
+
+//TODO: add a readme content
