@@ -1,5 +1,4 @@
-![](/content/images/rebelfox.svg)
-
-# Rebel Fox
+![](/content/images/rebelfoxtest.png)
+# 
 
 //TODO: add a readme content
