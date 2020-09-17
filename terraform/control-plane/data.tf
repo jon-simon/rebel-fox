@@ -55,12 +55,12 @@ data "aws_ami" "base" {
   owners      = ["552172703831"]
 
   filter {
-    name   = "Name"
-    values = ["amzn2-ami-hvm-2.0.*-x86_64-gp2"]
+    name   = "tag:Name"
+    values = ["rebel-fox-kubernetes"]
   }
 
   filter {
-    name   = "Version"
+    name   = "tag:Version"
     values = ["1.19.2"]
   }
 }
