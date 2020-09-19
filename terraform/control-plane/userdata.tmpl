@@ -5,6 +5,8 @@ set -ex
 ## Setting variables
 AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone 2>/dev/null | head -c -1)
 AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-credentials/ec2/info | grep AccountId | awk '{print $3}' | tr -d '"')
+LOCAL_IPV4=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+LOCAL_HOSTNAME=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname)
 
 ## Using the pre-baked rebel-fox-kubernetes AMI
 
@@ -35,3 +37,47 @@ ebs-bootstrap \
 -mount-point /var/lib/etcd
 
 echo "/dev/xvde /var/lib/etcd ext4 defaults,nofail 0 2" >> /etc/fstab
+
+## creating the kubeadm init config
+cat <<EOF > /etc/kubernetes/kubeadm-init.conf
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: $${LOCAL_IPV4}
+  bindPort: 6443
+
+bootstrapTokens:
+- groups:
+  - system:bootstrappers:kubeadm:default-node-token
+  token: $(cat /etc/kubernetes/bootstrap.token)
+  ttl: "0"
+  usages:
+  - signing
+  - authentication
+
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: $${LOCAL_HOSTNAME}
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+clusterName: ${tmpl_k8s_cluster_id}
+imageRepository: k8s.gcr.io
+kubernetesVersion: v${tmpl_kubernetes_version}
+controlPlaneEndpoint: ${tmpl_external_api}
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: ${tmpl_service_cidr}
+  podSubnet: tmpl_pod_cidr
+apiServer:
+  certSANs:
+  - ${tmpl_external_api}
+  - ${tmpl_internal_api}
+  - $${LOCAL_HOSTNAME}
+  - $${LOCAL_IPV4}
+EOF

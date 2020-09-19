@@ -61,7 +61,7 @@ data "aws_ami" "base" {
 
   filter {
     name   = "tag:Version"
-    values = ["1.19.2"]
+    values = [var.kubernetes_version]
   }
 }
 
