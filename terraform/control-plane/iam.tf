@@ -100,8 +100,6 @@ data "aws_iam_policy_document" "control_plane_cw_permissions" {
       "ssm:GetDeployablePatchSnapshotForInstance",
       "ssm:GetDocument",
       "ssm:GetManifest",
-      "ssm:GetParameter",
-      "ssm:GetParameters",
       "ssm:ListAssociations",
       "ssm:ListInstanceAssociations",
       "ssm:PutComplianceItems",
@@ -127,10 +125,7 @@ data "aws_iam_policy_document" "control_plane_cw_permissions" {
       "ssm:GetParameter"
     ]
     resources = [
-      "arn:aws:ssm:*:*:parameter/jumpcloud/api-key",
-      "arn:aws:ssm:*:*:parameter/jumpcloud/api-secret",
-      "arn:aws:ssm:*:*:parameter/chef/validator",
-      "arn:aws:ssm:*:*:parameter/chef/databag-secret"
+      "arn:aws:ssm:*:*:parameter/${local.cluster_id}/*"
     ]
   }
 
