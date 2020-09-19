@@ -10,12 +10,12 @@ AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-creden
 
 ## Grabbing Pre-generated CA certs and Bootstrap token from ssm parameter store
 ## Bash has a cool substring replacement mechanism builtin to manipulate variables.
-## The file output uses this mechanism as such ${the variable/pattern to match/value that replaces the pattern match}
+## The file output uses this mechanism as such {the variable/pattern to match/value that replaces the pattern match}
 
 ## kuberetes ca
 for p in $(aws ssm get-parameters-by-path --path /${tmpl_k8s_cluster_id}/ | jq -r .Parameters[].Name)
 do
-    aws ssm get-parameter --name $${p} --with-decryption | jq -r .Parameter.Value > "$${p/${tmpl_k8s_cluster_id}/etc/kubernetes/pki}"
+    aws ssm get-parameter --name $${p} --with-decryption | jq -r .Parameter.Value > "${p/${tmpl_k8s_cluster_id}/etc/kubernetes/pki}"
 done
 
 ## etcd ca
