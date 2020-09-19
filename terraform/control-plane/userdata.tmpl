@@ -8,6 +8,9 @@ AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-creden
 
 ## Using the pre-baked rebel-fox-kubernetes AMI
 
+## Creating the /etc/kubernetes/pki path for writing the ca certs stored in ssm to.
+mkdir -p /etc/kubernetes/pki
+
 ## Grabbing Pre-generated CA certs and Bootstrap token from ssm parameter store
 ## Bash has a cool substring replacement mechanism builtin to manipulate variables.
 ## The file output uses this mechanism as such {the variable/pattern to match/value that replaces the pattern match}
@@ -23,3 +26,12 @@ for p in $(aws ssm get-parameters-by-path --path /${tmpl_k8s_cluster_id}/etcd | 
 do
     aws ssm get-parameter --name $${p} --with-decryption | jq -r .Parameter.Value > "$${p/${tmpl_k8s_cluster_id}/etc/kubernetes/pki}"
 done
+
+## Fetching and mounting the persistent etcd data volume
+ebs-bootstrap \
+-aws-region $${AWS_DEFAULT_REGION} \
+-ebs-volume-name ${tmpl_k8s_cluster_id}-etcd-${tmpl_member_count}-data \
+-block-device /dev/xvde -filesystem-type ext4 \
+-mount-point /var/lib/etcd
+
+echo "/dev/xvde /var/lib/etcd ext4 defaults,nofail 0 2" >> /etc/fstab

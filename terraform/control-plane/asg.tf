@@ -22,6 +22,7 @@ module "control_plane_asg" {
     tmpl_environment      = local.environment,
     tmpl_aws_account_name = local.aws_account_name
     tmpl_k8s_cluster_id   = local.cluster_id
+    tmpl_member_count = format("%02d", count.index + 1)
     }
   )
   root_block_device = [
