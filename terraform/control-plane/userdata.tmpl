@@ -50,7 +50,7 @@ localAPIEndpoint:
 bootstrapTokens:
 - groups:
   - system:bootstrappers:kubeadm:default-node-token
-  token: $(cat /etc/kubernetes/bootstrap.token)
+  token: $(cat /etc/kubernetes/pki/bootstrap.token)
   ttl: "0"
   usages:
   - signing
@@ -73,7 +73,7 @@ controlPlaneEndpoint: ${tmpl_external_api}
 networking:
   dnsDomain: cluster.local
   serviceSubnet: ${tmpl_service_cidr}
-  podSubnet: tmpl_pod_cidr
+  podSubnet: ${tmpl_pod_cidr}
 apiServer:
   certSANs:
   - ${tmpl_external_api}
