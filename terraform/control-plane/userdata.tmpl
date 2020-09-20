@@ -4,9 +4,11 @@ set -ex
 
 ## Setting variables
 AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone 2>/dev/null | head -c -1)
+AWS_AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
 AWS_ACCOUNT_ID=$(curl -s http://169.254.169.254/latest/meta-data/identity-credentials/ec2/info | grep AccountId | awk '{print $3}' | tr -d '"')
 LOCAL_IPV4=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 LOCAL_HOSTNAME=$(curl -s http://169.254.169.254/latest/meta-data/local-hostname)
+INSTANCE_TYPE=$(curl -s http://169.254.169.254/latest/meta-data/instance-type)
 
 ## Using the pre-baked rebel-fox-kubernetes AMI
 
@@ -80,4 +82,31 @@ apiServer:
   - ${tmpl_internal_api}
   - $${LOCAL_HOSTNAME}
   - $${LOCAL_IPV4}
+EOF
+
+cat <<EOF > /etc/kubernetes/kubeadm-control-plane-join.config
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: ${tmpl_external_api}:6443
+    token: $(cat /etc/kubernetes/pki/bootstrap.token)
+    unsafeSkipCAVerification: true
+  timeout: 5m0s
+  tlsBootstrapToken: $(cat /etc/kubernetes/pki/bootstrap.token)
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: $${LOCAL_HOSTNAME}
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+  kubeletExtraArgs:
+    cloud-provider: external
+    node-labels: "kubernetes.io/hostname=$${LOCAL_HOSTNAME},node.kubernetes.io/instance-type=$${INSTANCE_TYPE},topology.kubernetes.io/region=$${AWS_DEFAULT_REGION},topology.kubernetes.io/zone=$${AWS_AVAILABILITY_ZONE}"
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: $${LOCAL_IPV4}
+    bindPort: 6443
 EOF
