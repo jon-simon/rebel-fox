@@ -132,9 +132,9 @@ kubectl --kubeconfig /etc/kubernetes/admin.conf create \
 
 set -ex
 ## copying admin config to root and ec2-user .kube directories
+## using a while loop w/ timeout command to recover from a possible race condition
 mkdir -p /home/ec2-user/.kube
 mkdir -p /root/.kube
-while timeout -k 70 60 -- cp /etc/kuberetes/admin.conf /home/ec2-user/.kube && cp /etc/kuberetes/admin.conf /root/.kube; [ $? = 124 ]
+while timeout -k 70 60 cp /etc/kubernetes/admin.conf /home/ec2-user/.kube && cp /etc/kubernetes/admin.conf /root/.kube; [ $? = 124 ]
 do sleep 2  # Pause before retry
 done
-
