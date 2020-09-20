@@ -41,7 +41,7 @@ ebs-bootstrap \
 echo "/dev/xvde /var/lib/etcd ext4 defaults,nofail 0 2" >> /etc/fstab
 
 ## creating the kubeadm init config
-cat <<EOF > /etc/kubernetes/kubeadm-init.conf
+cat <<EOF > /etc/kubernetes/kubeadm-init.config
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
@@ -120,8 +120,20 @@ else
     --ignore-preflight-errors=DirAvailable--var-lib-etcd
 fi
 
+set -x ## allowing script to continue even if non-zero is returned
+## removing the taint from the control-plane nodes
 kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes \
 --all node-role.kubernetes.io/master-
 
+## install
 kubectl --kubeconfig /etc/kubernetes/admin.conf create \
 -f https://docs.projectcalico.org/manifests/calico.yaml
+
+
+set -ex
+## copying admin config to root and ec2-user .kube directories
+mkdir -p /home/ec2-user/.kube
+cp /etc/kuberetes/admin.conf /home/ec2-user/.kube
+
+mkdir -p /root/.kube
+cp /etc/kuberetes/admin.conf /root/.kube
