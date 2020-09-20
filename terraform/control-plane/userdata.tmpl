@@ -88,7 +88,6 @@ cat <<EOF > /etc/kubernetes/kubeadm-control-plane-join.config
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
-
 discovery:
   bootstrapToken:
     apiServerEndpoint: ${tmpl_external_api}:6443
@@ -110,3 +109,13 @@ controlPlane:
     advertiseAddress: $${LOCAL_IPV4}
     bindPort: 6443
 EOF
+
+if [[ "${tmpl_member}" == "01" ]]; then
+    echo "Prime control-plane node: running init config"
+    kubeadm init --config /etc/kubernetes/kubeadm-init.config \
+    --ignore-preflight-errors=DirAvailable--var-lib-etcd
+else
+    echo "Replica control-plane node: running join config"
+    kubeadm join --config /etc/kubernetes/kubeadm-control-plane-join.config \
+    --ignore-preflight-errors=DirAvailable--var-lib-etcd
+fi

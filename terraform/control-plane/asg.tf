@@ -17,18 +17,18 @@ module "control_plane_asg" {
   security_groups             = [module.control_plane_ec2_sg.this_security_group_id]
   key_name                    = "account_ec2_root_key"
   user_data = templatefile("${path.module}/userdata.tmpl", {
-    tmpl_name             = "${local.cluster_id}-control-plane-${format("%02d", count.index + 1)}",
-    tmpl_operator         = local.operator,
-    tmpl_environment      = local.environment,
-    tmpl_aws_account_name = local.aws_account_name
-    tmpl_k8s_cluster_id   = local.cluster_id
-    tmpl_member_count = format("%02d", count.index + 1)
-    tmpl_external_api = aws_route53_record.control_plane.name
-    tmpl_internal_api = aws_route53_record.control_plane_internal.name
+    tmpl_name               = "${local.cluster_id}-control-plane-${format("%02d", count.index + 1)}",
+    tmpl_operator           = local.operator,
+    tmpl_environment        = local.environment,
+    tmpl_aws_account_name   = local.aws_account_name
+    tmpl_k8s_cluster_id     = local.cluster_id
+    tmpl_member_count       = format("%02d", count.index + 1)
+    tmpl_external_api       = aws_route53_record.control_plane.name
+    tmpl_internal_api       = aws_route53_record.control_plane_internal.name
     tmpl_kubernetes_version = var.kubernetes_version
-    tmpl_pod_cidr = var.pod_cidr
-    tmpl_service_cidr = var.service_cidr
-
+    tmpl_pod_cidr           = var.pod_cidr
+    tmpl_service_cidr       = var.service_cidr
+    tmpl_member             = format("%02d", count.index + 1)
     }
   )
   root_block_device = [
