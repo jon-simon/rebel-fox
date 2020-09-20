@@ -119,3 +119,9 @@ else
     kubeadm join --config /etc/kubernetes/kubeadm-control-plane-join.config \
     --ignore-preflight-errors=DirAvailable--var-lib-etcd
 fi
+
+kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes \
+--all node-role.kubernetes.io/master-
+
+kubectl --kubeconfig /etc/kubernetes/admin.conf create \
+-f https://docs.projectcalico.org/manifests/calico.yaml
