@@ -24,7 +24,7 @@ module "control_plane_asg" {
     tmpl_k8s_cluster_id   = local.cluster_id
     tmpl_member_count = format("%02d", count.index + 1)
     tmpl_external_api = aws_route53_record.control_plane.name
-    tmpl_internal_api = control_plane_internal.control_plane_internal.name
+    tmpl_internal_api = aws_route53_record.control_plane_internal.name
     tmpl_kubernetes_version = var.kubernetes_version
     tmpl_pod_cidr = var.pod_cidr
     tmpl_service_cidr = var.service_cidr
