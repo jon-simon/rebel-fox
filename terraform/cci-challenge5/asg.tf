@@ -28,7 +28,7 @@ module "asg" {
 
   # Auto scaling group
   asg_name                  = "cci-challenge5-asg"
-  vpc_zone_identifier       = ["${element(sort(tolist(data.aws_subnet_ids.private.ids)), count.index)}"]
+  vpc_zone_identifier       = data.aws_subnet_ids.private.ids
   target_group_arns         = [join(",", module.cci_challenge5_nlb.target_group_arns)]
   health_check_type         = "EC2"
   min_size                  = 1
