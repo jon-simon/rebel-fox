@@ -1,13 +1,26 @@
-module "nlb_cert" {
-  source  = "terraform-aws-modules/acm/aws"
-  version = "~> v2.0"
+resource "aws_acm_certificate" "nlb" {
+  domain_name       = "challenge5.jibakurei.com"
+  validation_method = "DNS"
+}
 
-  domain_name = "challenge5.${data.aws_route53_zone.root.name}"
-  zone_id     = data.aws_route53_zone.root.zone_id
-
-  wait_for_validation = true
-
-  tags = {
-    Name = "challenge5.${data.aws_route53_zone.root.name}"
+resource "aws_route53_record" "nlb" {
+  for_each = {
+    for dvo in aws_acm_certificate.example.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
   }
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.root.zone_id
+}
+
+resource "aws_acm_certificate_validation" "nlb" {
+  certificate_arn         = aws_acm_certificate.example.arn
+  validation_record_fqdns = [for record in aws_route53_record.nlb : record.fqdn]
 }
