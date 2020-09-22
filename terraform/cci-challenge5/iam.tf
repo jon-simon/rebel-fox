@@ -119,19 +119,6 @@ data "aws_iam_policy_document" "cci_challenge5_cw_permissions" {
   statement {
     effect = "Allow"
     actions = [
-      "ssm:DescribeParameters",
-      "ssm:GetParametersByPath",
-      "ssm:GetParameters",
-      "ssm:GetParameter"
-    ]
-    resources = [
-      "arn:aws:ssm:*:*:parameter/${local.cluster_id}/*"
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
       "kms:GenerateDataKey",
       "kms:Decrypt"
     ]
