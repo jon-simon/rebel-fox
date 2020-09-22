@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
 //TODO: Make clusterID a prefix instead of a suffix
 resource "aws_iam_role" "cci_challenge5_role" {
-  name               = "control-plane-instance-role-${local.cluster_id}"
+  name               = "cci-challenge5-ec2-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
@@ -151,7 +151,7 @@ data "aws_iam_policy_document" "cci_challenge5_cw_permissions" {
 }
 
 resource "aws_iam_role_policy" "cci_challenge5_policy" {
-  name   = "control-plane-instance-policy"
+  name   = "cci-challenge5-policy"
   policy = data.aws_iam_policy_document.cci_challenge5_cw_permissions.json
   role   = aws_iam_role.cci_challenge5_role.id
 }
