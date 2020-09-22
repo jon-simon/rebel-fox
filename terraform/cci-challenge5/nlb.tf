@@ -22,7 +22,7 @@ module "cci_challenge5_nlb" {
     {
       port               = 443
       protocol           = "TLS"
-      certificate_arn    = "	arn:aws:acm:us-west-2:552172703831:certificate/b3da632b-f5bc-41e1-8a7f-1c8a33afbf6a"
+      certificate_arn    = "arn:aws:acm:us-west-2:552172703831:certificate/b3da632b-f5bc-41e1-8a7f-1c8a33afbf6a"
       target_group_index = 0
     }
   ]
