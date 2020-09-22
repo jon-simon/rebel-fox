@@ -6,3 +6,11 @@ variable "name" {}
 variable "operator" {}
 variable "environment" {}
 variable "aws_account_name" {}
+
+variable "kubernetes_version" {
+  default = "1.19.2"
+}
+
+variable "instance_type" {
+  default = "t3.small"
+}

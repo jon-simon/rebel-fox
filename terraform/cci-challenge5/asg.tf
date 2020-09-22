@@ -10,10 +10,14 @@ module "asg" {
   image_id                    = data.aws_ami.base.id
   instance_type               = var.instance_type
   associate_public_ip_address = "false"
-  iam_instance_profile        = aws_iam_instance_profile.control_plane_instance_profile.id
+  iam_instance_profile        = aws_iam_instance_profile.cci_challenge5.id
   security_groups             = [module.cci_server_sg.this_security_group_id]
   key_name                    = "account_ec2_root_key"
-  user_data                   = templatefile("${path.module}/userdata.tmpl")
+  user_data = templatefile("${path.module}/userdata.tmpl", {
+    tmpl_operator         = local.operator,
+    tmpl_environment      = local.environment,
+    tmpl_aws_account_name = local.aws_account_name
+  })
 
   root_block_device = [
     {
