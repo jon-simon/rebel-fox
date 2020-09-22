@@ -5,3 +5,4 @@ variable "aws_region" {}
 variable "name" {}
 variable "operator" {}
 variable "environment" {}
+variable "aws_account_name" {}
