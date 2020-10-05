@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -x
 
 ## Setting variables
 AWS_DEFAULT_REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone 2>/dev/null | head -c -1)
@@ -120,17 +120,14 @@ else
     --ignore-preflight-errors=DirAvailable--var-lib-etcd
 fi
 
-set -x ## allowing script to continue even if non-zero is returned
 ## removing the taint from the control-plane nodes
 kubectl --kubeconfig /etc/kubernetes/admin.conf taint nodes \
 --all node-role.kubernetes.io/master-
 
-## install
+## installing Calico as the CNI
 kubectl --kubeconfig /etc/kubernetes/admin.conf create \
 -f https://docs.projectcalico.org/manifests/calico.yaml
 
-
-set -ex
 ## copying admin config to root and ec2-user .kube directories
 ## using a while loop w/ timeout command to recover from a possible race condition
 mkdir -p /home/ec2-user/.kube

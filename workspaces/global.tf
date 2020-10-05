@@ -78,19 +78,3 @@ module "s3-buckets" {
   aws_account_name  = "jibakurei"
   oauth_token_id    = var.oauth_token_id
 }
-
-module "cci-challenge5" {
-  source            = "app.terraform.io/jibakurei/workspace/tfe"
-  workspace_name    = "cci-challenge5"
-  name              = "jibakurei"
-  environment       = "global"
-  operator          = "jibakurei"
-  org               = "jibakurei"
-  working_directory = "/terraform/cci-challenge5"
-  github_repo       = "jon-simon/rebel-fox"
-  branch            = "master"
-  aws_access_key    = var.aws_access_key_id
-  aws_secret_key    = var.aws_secret_access_key
-  aws_account_name  = "jibakurei"
-  oauth_token_id    = var.oauth_token_id
-}
