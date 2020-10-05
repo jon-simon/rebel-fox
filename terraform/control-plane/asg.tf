@@ -50,8 +50,8 @@ module "control_plane_asg" {
   max_size                  = 1
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
-  default_cooldown          = 0
-  health_check_grace_period = 0
+  default_cooldown          = 10
+  health_check_grace_period = 30
 
   tags = [
     {
