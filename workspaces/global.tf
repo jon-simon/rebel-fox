@@ -31,6 +31,22 @@ module "image-builder-vpc" {
   oauth_token_id    = var.oauth_token_id
 }
 
+module "poc-vpc" {
+  source            = "app.terraform.io/jibakurei/workspace/tfe"
+  workspace_name    = "poc-vpc"
+  name              = "jibakurei"
+  environment       = "global"
+  operator          = "jibakurei"
+  org               = "jibakurei"
+  working_directory = "/terraform/poc-vpc"
+  github_repo       = "jon-simon/rebel-fox"
+  branch            = "master"
+  aws_access_key    = var.aws_access_key_id
+  aws_secret_key    = var.aws_secret_access_key
+  aws_account_name  = "jibakurei"
+  oauth_token_id    = var.oauth_token_id
+}
+
 module "hosted-zones" {
   source            = "app.terraform.io/jibakurei/workspace/tfe"
   workspace_name    = "hosted-zones"
