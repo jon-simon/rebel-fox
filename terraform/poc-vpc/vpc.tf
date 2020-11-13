@@ -2,20 +2,21 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = "poc"
-  cidr = "172.31.0.0/16"
+  cidr = "192.168.1.0/24"
 
-  azs             = ["us-west-2a", "us-west-2b", "us-west-2c"]
-  public_subnets  = ["172.31.1.0/24", "172.31.2.0/24", "172.31.3.0/24"]
-  private_subnets  = ["172.31.11.0/24", "172.31.12.0/24", "172.31.13.0/24"]
+  azs             = ["us-west-2a", "us-west-2b"]
+  public_subnets  = ["192.168.1.0/26", "192.168.1.64/26"]
+  private_subnets  = ["192.168.1.128/26", "192.168.1.192/26"]
 
   # Single NAT Gateway
   enable_nat_gateway       = true
-  single_nat_gateway       = true
-  one_nat_gateway_per_az   = false
+  single_nat_gateway       = false
+  one_nat_gateway_per_az   = true
 
 # enabling endpoints
   enable_dns_hostnames     = true
   enable_s3_endpoint       = true
+  enable_dynamodb_endpoint = false
 
   tags = "${merge(local.common_tags,
     {
