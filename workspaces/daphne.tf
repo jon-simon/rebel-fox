@@ -7,7 +7,7 @@ module "web-server" {
   cluster_id        = "daphne"
   operator          = "circle"
   org               = "jibakurei"
-  working_directory = "/terraform./poc-web-servers"
+  working_directory = "/terraform./poc-webservers"
   github_repo       = "jon-simon/rebel-fox"
   branch            = "master"
   aws_access_key    = var.aws_access_key_id
