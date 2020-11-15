@@ -5,7 +5,7 @@ module "webserver_alb_sg" {
   description = "Security group for webserver with HTTP ports open within VPC"
   vpc_id      = data.aws_vpc.jibakurei.id
 
-  ingress_cidr_blocks = ["192.168.1.0/24"]
+  ingress_cidr_blocks = ["0.0.0.0/0"]
 }
 
 
