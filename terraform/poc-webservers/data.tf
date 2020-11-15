@@ -71,6 +71,17 @@ data "aws_security_group" "vpc_default" {
   }
 }
 
+data "aws_route53_zone" "root" {
+  name = "${local.aws_account_name}.com."
+}
+
+// This will pull the latest available ami that starts with the defined name variable.
+// Example usage: data.aws_route53_zone.jibakurei.id
+data "aws_route53_zone" "private" {
+  name         = "private.${local.aws_account_name}."
+  private_zone = true
+}
+
 data "aws_availability_zones" "in_use" {
   filter {
     name   = "zone-name"
