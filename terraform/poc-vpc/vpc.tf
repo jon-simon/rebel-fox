@@ -18,6 +18,16 @@ module "vpc" {
   enable_s3_endpoint       = true
   enable_dynamodb_endpoint = false
 
+  ## enabling SSM endpoints
+  enable_ssm_endpoint = true
+  ssm_endpoint_private_dns_enabled = true
+  ssm_endpoint_security_group_ids = [module.allow_ssm_vpc_enpoint.this_security_group_id]
+
+  ## enable ec2 messages endpoints
+  enable_ec2messages_endpoint	= true
+  ec2messages_endpoint_private_dns_enabled = true
+  ec2messages_endpoint_security_group_ids = [module.allow_ssm_vpc_enpoint.this_security_group_id]
+
   tags = "${merge(local.common_tags,
     {
       "Name"   = local.service_name,
