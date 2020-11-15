@@ -1,22 +1,11 @@
 module "webserver_alb_sg" {
-  source = "terraform-aws-modules/security-group/aws"
+  source = "terraform-aws-modules/security-group/aws//modules/http-80"
 
   name        = "webserver"
-  description = "Security group for EC2 to allow HTTP from ALB"
+  description = "Security group for webserver with HTTP ports open within VPC"
   vpc_id      = data.aws_vpc.jibakurei.id
 
-  egress_cidr_blocks = ["0.0.0.0/0"]
-  egress_rules = [
-    "all-all"
-  ]
-
-  ingress_with_self = [
-    {
-      rule = "all-all"
-    },
-  ]
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules = ["http-80-tcp"]
+  ingress_cidr_blocks = ["192.168.1.0/24"]
 }
 
 
