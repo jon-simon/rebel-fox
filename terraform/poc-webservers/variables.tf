@@ -18,8 +18,8 @@ variable "service_cidr" {
   default = "192.167.0.0/16"
 }
 
-variable "control_plane_count" {
-  default = 1
+variable "instance_count" {
+  default = 2
 }
 
 variable "instance_type" {
