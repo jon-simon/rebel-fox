@@ -144,7 +144,7 @@ data "aws_iam_policy_document" "webserver_cw_permissions" {
       "route53:ChangeResourceRecordSets",
       "route53:GetHostedZone",
     ]
-    resources = ["arn:aws:route53:::hostedzone/${data.aws_route53_zone.private.zone_id}"]
+    resources = ["arn:aws:route53:::hostedzone/${data.aws_route53_zone.root.zone_id}"]
   }
 
   // closing bracket
