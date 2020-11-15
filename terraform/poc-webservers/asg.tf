@@ -39,7 +39,7 @@ module "asg" {
   wait_for_capacity_timeout = 0
   default_cooldown          = 0
   health_check_grace_period = 0
-
+  target_group_arns = [join(",", module.alb.target_group_arns)]
   tags = [
     {
       key                 = "HostedZoneName"
