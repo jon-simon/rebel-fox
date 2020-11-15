@@ -10,6 +10,6 @@ module "allow_ssm_vpc_enpoint" {
     "all-all"
   ]
 
-  ingress_cidr_blocks      = [var.cidr_block]
+  ingress_cidr_blocks      = ["192.168.1.0/24"]
   ingress_rules            = ["https-443-tcp"]
 }
