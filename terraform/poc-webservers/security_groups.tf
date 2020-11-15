@@ -26,7 +26,7 @@ module "webserver_ec2_sg" {
 
 computed_ingress_with_source_security_group_id = [
     {
-      rule                     = "http-tcp"
+      rule                     = "http-80-tcp"
       source_security_group_id = module.webserver_alb_sg.this_security_group_id
     },
   ]
