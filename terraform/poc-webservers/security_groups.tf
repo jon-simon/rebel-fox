@@ -21,13 +21,6 @@ computed_ingress_with_source_security_group_id = [
       rule                     = "http-tcp"
       source_security_group_id = module.webserver_alb_sg.this_security_group_id
     },
-    {
-      from_port                = 80
-      to_port                  = 80
-      protocol                 = "TCP"
-      description              = "Webserver"
-      source_security_group_id = module.webserver_alb_sg.this_security_group_id
-    },
   ]
   number_of_computed_ingress_with_source_security_group_id = 1
 }
