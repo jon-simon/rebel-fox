@@ -1,13 +1,13 @@
 // niles kubernetes cluster workspaces
-module "web-server" {
+module "webserver" {
   source            = "app.terraform.io/jibakurei/workspace/tfe"
-  workspace_name    = "web-server"
+  workspace_name    = "webserver"
   name              = "jibakurei"
   environment       = "dev"
   cluster_id        = "daphne"
   operator          = "circle"
   org               = "jibakurei"
-  working_directory = "/terraform./poc-webservers"
+  working_directory = "/terraform/poc-webservers"
   github_repo       = "jon-simon/rebel-fox"
   branch            = "master"
   aws_access_key    = var.aws_access_key_id
