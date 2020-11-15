@@ -16,6 +16,14 @@ module "webserver_ec2_sg" {
   description = "Security group for EC2 to allow HTTP from ALB"
   vpc_id      = data.aws_vpc.jibakurei.id
 
+  ingress_with_self = [
+    {
+      rule = "all-all"
+    },
+  ]
+  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_rules = ["ssh-tcp"]
+
 computed_ingress_with_source_security_group_id = [
     {
       rule                     = "http-tcp"
