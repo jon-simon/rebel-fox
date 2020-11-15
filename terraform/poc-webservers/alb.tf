@@ -12,7 +12,7 @@ module "alb" {
 
   target_groups = [
     {
-      name_prefix      = "webserv-"
+      name_prefix      = "web-"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
