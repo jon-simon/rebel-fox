@@ -17,6 +17,8 @@ module "vpc" {
   enable_dns_hostnames     = true
   enable_s3_endpoint       = true
   enable_dynamodb_endpoint = false
+  enable_lambda_endpoint = true
+  enable_apigw_endpoint = true
 
   ## enabling SSM endpoints
   enable_ssm_endpoint = true
