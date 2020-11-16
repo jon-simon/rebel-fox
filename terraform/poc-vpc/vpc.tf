@@ -17,8 +17,14 @@ module "vpc" {
   enable_dns_hostnames     = true
   enable_s3_endpoint       = true
   enable_dynamodb_endpoint = false
+
+  ## enabling Lambda endpoints
   enable_lambda_endpoint = true
+  lambda_endpoint_security_group_ids = [module.allow_lambda_vpc_enpoint.this_security_group_id]
+
+  ## enabling APIGW endpoints
   enable_apigw_endpoint = true
+  apigw_endpoint_security_group_ids = [module.allow_apigw_vpc_enpoint.this_security_group_id]
 
   ## enabling SSM endpoints
   enable_ssm_endpoint = true
